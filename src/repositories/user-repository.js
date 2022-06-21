@@ -1,45 +1,76 @@
-/*
-  IMPORTANTE! A responsabilidade do Repository é apenas a gerencia dos dados
-  Não deve conter regras de negócio!
-*/
+const fs = require("fs");
+const path = require('path');
+const jsonPath = path.join(__dirname, '..', 'data', 'users.json');
+
 
 async function loadUsersRepository() {
-  /*
-  - TODO 1 : Deve retornar uma lista de usuários a partir do caminho src/data/users.json;
-  - TODO 2 : Deve ser usado um método de leitura do FS como readFile nessa implementação;  
-  */
-}
-
-/*
-  - TODO 3: Deve retornar uma exceção de erro "User is required" caso não seja passado os dados
-  - TODO 4: Deve ser usado um método de escrita do FS como writeFile, writeFileSync, etc;   
-  - TODO 5: Deve retornar o usuário após salvar no banco de dados;
-*/
+  fs.readFile(jsonPath, 'utf-8', (err, res) => {
+    if (err) throw err;
+    if (res === '') { //verificar se o json está vazio, evitar erro 
+      throw ('Error o JSON está vazio');
+    };
+    const userObj = JSON.parse(res);
+    let nameList = '';
+    for (elem of userObj) {
+      nameList += `${elem.name} `;
+    };
+    return console.log(nameList);
+});
+};
 
 async function createUserRepository(user) {
-  /*
-  - TODO 6: Deve retornar uma exceção de erro "User Id is required" caso não seja passado o ID
-  - TODO 7: Deve ser usado um método de escrita do FS como writeFile, writeFileSync, etc;  
-  - TODO 8: Deve retornar TRUE após salvar no banco de dados;
-  */
-}
+  fs.readFile(jsonPath, 'utf-8', (err, res) =>  { //precisei usar o readFile pra trabalhar com o RES
+    let newData = ''
+    if (res !== '') { //if para verificar se o json está vazio
+      const dataObject = JSON.parse(res);
+      newData = [...dataObject, user];
+    } else {
+      console.log('ELSE')
+      newData = [user]; //Precisa colocar os [] para dar certo na linha 26----------
+    };
+    const dataString = JSON.stringify(teste, null, 2);
+    fs.writeFile(jsonPath, dataString, (err) => {
+      if (err) throw err;
+    });
+    return true;
+  });
+};
 
 async function updateUserRepository(id, data) {
-  /*
-  - TODO 9: Deve retornar uma exceção de erro "User Id is required" caso não seja passado o ID
-  - TODO 10: Deve ser usado um método de escrita do FS como writeFile, writeFileSync, etc;  
-  - TODO 11: Deve retornar TRUE após remover um dado no banco de dados;
-*/
+  if (id === undefined) {
+    return console.log("User Id is required")
+  }
+  fs.readFile(jsonPath, 'utf-8', (err, res) => {
+    if (res === '') {
+      throw 'O JSON está vazio !!'
+    }
+    const userObj = JSON.parse(res) 
+    userObj.forEach((user) =>{
+      if (user.id === id) {
+        user.name = data.name === undefined ? user.name : data.name
+        user.email = data.email === undefined ? user.email : data.email
+        user.password = data.password === undefined ? user.password : data.password
+        user.phone = data.phone === undefined ? user.phone : data.phone
+      }
+    })
+  })
 }
 
 async function deleteUserRepository(id) {
-  /*
-  - TODO 12: Deve retornar uma exceção de erro "User Id is required" caso não seja passado o ID
-  - TODO 13: Deve ser usado um método de escrita do FS como writeFile, writeFileSync, etc;  
-  - TODO 14: Deve retornar TRUE após remover um dado no banco de dados;
-*/
-}
+  if (id === undefined) {
+    return console.log("User Id is required")
+  }
+  fs.readFile(jsonPath, 'utf-8', (err, res) => {
+    if (res === '') {
+      throw 'O JSON está vazio !!'
+    }
+    const userObj = JSON.parse(res)
+    newObj = userObj.filter((user) => user.id !== id);
+    console.log(newObj)
+  });
+};
 
+deleteUserRepository(1003)
 module.exports = {
   loadUsersRepository,
   createUserRepository,

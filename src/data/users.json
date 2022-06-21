@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1000,
+    "name": "Umlano",
+    "email": "Umlano@gmail.com",
+    "password": "Umlanolano",
+    "phone": "(11) 1111-1111"
+  },
+  {
+    "id": 1001,
+    "name": "Dolano",
+    "email": "Dolano@gmail.com",
+    "password": "Dolanolano",
+    "phone": "(22) 2222-2222"
+  },
+  {
+    "id": 1002,
+    "name": "Trelano",
+    "email": "Trelano@gmail.com",
+    "password": "Trelanolano",
+    "phone": "(33) 33333-3333"
+  },
+  {
+    "id": 1003,
+    "name": "Qualano",
+    "email": "Qualano@gmail.com",
+    "password": "Qualanolano",
+    "phone": "(44) 4444-4444"
+  }
+]
